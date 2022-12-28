@@ -14,7 +14,7 @@ macOS 的 DPI 机制和 Windows 下不一样，比如 1080p 的屏幕在 Windows
 
 设置：
 
-![设置](./img/preferences.jpg)
+![设置](./img/preferences.png)
 
 ![设置](./img/hidpi.gif)
 
