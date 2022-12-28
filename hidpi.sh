@@ -11,6 +11,14 @@ cat <<EEF
 ============================================
 EEF
 
+
+if [[ ${OSTYPE:6} -ge 22 ]]; then
+   echo "macOS version OK!"
+else 
+   echo "Your macOS version is lower than 13, Please try: https://github.com/xzhih/one-key-hidpi"
+   exit
+fi
+
 currentDir="$(cd $(dirname -- $0) && pwd)"
 systemLanguage=($(locale | grep LANG | sed s/'LANG='// | tr -d '"' | cut -d "." -f 1))
 is_applesilicon=$([[ "$(uname -m)" == "arm64" ]] && echo true || echo false)
@@ -297,7 +305,7 @@ function init() {
         sudo mkdir -p "${targetDir}"
     fi
 
-    downloadHost="https://raw.githubusercontent.com/xzhih/one-key-hidpi/master"
+    downloadHost="https://raw.githubusercontent.com/yurhett/one-key-hidpi/master"
     if [ -d "${currentDir}/displayIcons" ]; then
         downloadHost="file://${currentDir}"
     fi
@@ -518,7 +526,7 @@ function choose_icon() {
     echo "(1) iMac"
     echo "(2) MacBook"
     echo "(3) MacBook Pro"
-    echo "(4) LG ${langDisplay}"
+    echo "(4) Studio Display"
     echo "(5) Pro Display XDR"
     echo "(6) ${langNotChange}"
     echo ""
@@ -526,33 +534,74 @@ function choose_icon() {
     read -p "${langInputChoice} [1~6]: " logo
     case ${logo} in
     1)
-        Picon=${imacicon}
-        RP=("33" "68" "160" "90")
-        curl -fsSL "${downloadHost}/displayIcons/iMac.icns" -o ${currentDir}/tmp/DisplayVendorID-${Vid}/DisplayProductID-${Pid}.icns
+        
+        RP=("130" "232" "7" "92")
+        Picon=${sysOverrides}"\/Models\/com.apple.imac-2021-silver.tiff"
+
+        /usr/bin/sed -i "" "4824d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4824d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4826d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4826d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4828d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4828d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4830d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4830d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4832d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4832d" ${currentDir}/tmp/Icons.plist
         ;;
     2)
-        Picon=${mbicon}
-        RP=("52" "66" "122" "76")
-        curl -fsSL "${downloadHost}/displayIcons/MacBook.icns" -o ${currentDir}/tmp/DisplayVendorID-${Vid}/DisplayProductID-${Pid}.icns
+        RP=("96" "146" "27" "39")
+        RPL=("120" "185" "32" "43")
+        Picon=${sysOverrides}"\/Models\/com.apple.macbookair-13-2022-space-gray.tiff"
+        Licon=${sysOverrides}"\/Models\/com.apple.macbookair-13-2022-space-gray-large.tiff"
+        /usr/bin/sed -i "" "s/LICON/${Licon}/g" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "s/RPLY/${RPL[3]}/g" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "s/RPLX/${RPL[2]}/g" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "s/RPLW/${RPL[1]}/g" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "s/RPLH/${RPL[0]}/g" ${currentDir}/tmp/Icons.plist
+
         ;;
     3)
-        Picon=${mbpicon}
-        RP=("40" "62" "147" "92")
-        curl -fsSL "${downloadHost}/displayIcons/MacBookPro.icns" -o ${currentDir}/tmp/DisplayVendorID-${Vid}/DisplayProductID-${Pid}.icns
+        RP=("113" "176" "27" "42")
+        RPL=("141" "220" "34" "47")
+        Picon=${sysOverrides}"\/Models\/com.apple.macbookpro-16-2021-space-gray.tiff"
+        Licon=${sysOverrides}"\/Models\/com.apple.macbookpro-16-2021-space-gray-large.tiff"
+        /usr/bin/sed -i "" "s/LICON/${Licon}/g" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "s/RPLY/${RPL[3]}/g" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "s/RPLX/${RPL[2]}/g" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "s/RPLW/${RPL[1]}/g" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "s/RPLH/${RPL[0]}/g" ${currentDir}/tmp/Icons.plist
         ;;
     4)
         Picon=${lgicon}
-        RP=("11" "47" "202" "114")
-        cp ${sysDisplayDir}/DisplayVendorID-1e6d/DisplayProductID-5b11.icns ${currentDir}/tmp/DisplayVendorID-${Vid}/DisplayProductID-${Pid}.icns
+        RP=("134" "236" "5" "72")
+        Picon=${sysOverrides}"\/Models\/com.apple.studio-display.tiff"
+
+        /usr/bin/sed -i "" "4824d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4824d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4826d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4826d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4828d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4828d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4830d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4830d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4832d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4832d" ${currentDir}/tmp/Icons.plist
         ;;
     5)
-        Picon=${proxdricon}
-        RP=("5" "45" "216" "121")
-        curl -fsSL "${downloadHost}/displayIcons/ProDisplayXDR.icns" -o ${currentDir}/tmp/DisplayVendorID-${Vid}/DisplayProductID-${Pid}.icns
-        if [[ ! -f ${targetDir}/DisplayVendorID-610/DisplayProductID-ae2f_Landscape.tiff ]]; then
-            curl -fsSL "${downloadHost}/displayIcons/ProDisplayXDR.tiff" -o ${currentDir}/tmp/DisplayVendorID-${Vid}/DisplayProductID-${Pid}.tiff
-            Picon=${Overrides}"\/DisplayVendorID\-${Vid}\/DisplayProductID\-${Pid}\.tiff"
-        fi
+        RP=("137" "244" "3" "59")
+        Picon=${sysOverrides}"\/Models\/com.apple.pro-display-xdr-landscape.tiff"
+
+        /usr/bin/sed -i "" "4824d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4824d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4826d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4826d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4828d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4828d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4830d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4830d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4832d" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "4832d" ${currentDir}/tmp/Icons.plist
         ;;
     6)
         rm -rf ${currentDir}/tmp/Icons.plist
@@ -566,14 +615,14 @@ function choose_icon() {
 
     if [[ ${Picon} ]]; then
         DICON=${Overrides}"\/DisplayVendorID\-${Vid}\/DisplayProductID\-${Pid}\.icns"
+        /usr/bin/sed -i "" "s/PICON/${Picon}/g" ${currentDir}/tmp/Icons.plist
         /usr/bin/sed -i "" "s/VID/${Vid}/g" ${currentDir}/tmp/Icons.plist
         /usr/bin/sed -i "" "s/PID/${Pid}/g" ${currentDir}/tmp/Icons.plist
-        /usr/bin/sed -i "" "s/RPX/${RP[0]}/g" ${currentDir}/tmp/Icons.plist
-        /usr/bin/sed -i "" "s/RPY/${RP[1]}/g" ${currentDir}/tmp/Icons.plist
-        /usr/bin/sed -i "" "s/RPW/${RP[2]}/g" ${currentDir}/tmp/Icons.plist
-        /usr/bin/sed -i "" "s/RPH/${RP[3]}/g" ${currentDir}/tmp/Icons.plist
-        /usr/bin/sed -i "" "s/PICON/${Picon}/g" ${currentDir}/tmp/Icons.plist
-        /usr/bin/sed -i "" "s/DICON/${DICON}/g" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "s/RPY/${RP[3]}/g" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "s/RPX/${RP[2]}/g" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "s/RPW/${RP[1]}/g" ${currentDir}/tmp/Icons.plist
+        /usr/bin/sed -i "" "s/RPH/${RP[0]}/g" ${currentDir}/tmp/Icons.plist
+        
     fi
 
 }
@@ -672,6 +721,7 @@ function end() {
     sudo chown -R root:wheel ${currentDir}/tmp/
     sudo chmod -R 0755 ${currentDir}/tmp/
     sudo chmod 0644 ${currentDir}/tmp/DisplayVendorID-${Vid}/*
+
     sudo cp -r ${currentDir}/tmp/* ${targetDir}/
     sudo rm -rf ${currentDir}/tmp
     sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool YES
