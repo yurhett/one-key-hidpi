@@ -1,4 +1,4 @@
-# Enable macOS HiDPI (Only For macOS 13 Ventura)
+# Enable macOS HiDPI (Only For macOS 13 Ventura, need more tests!)
 
 ## Explanation
 
