@@ -12,7 +12,7 @@ Logo scaling up may not be resolved, cuz the higher resolution is faked.
 
 System Preferences
 
-![Preferences](./img/preferences.jpg)
+![Preferences](./img/preferences.png)
 
 ![Preferences](./img/hidpi.gif)
 
