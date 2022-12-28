@@ -1,4 +1,4 @@
-# 一键开启 macOS HiDPI
+# 一键开启 macOS HiDPI （为macOS 13 Ventura特别修复，需要更多测试以证明稳定性！）
 
 ## 说明
 
